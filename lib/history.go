@@ -39,7 +39,7 @@ func (h *History) Join(sep string) string {
 	return strings.Join(h.List, sep)
 }
 
-func (h *History) Match(pattern string) bool {
+func (h *History) MatchString(pattern string) bool {
 	if h == nil {
 		return false
 	}
@@ -48,4 +48,11 @@ func (h *History) Match(pattern string) bool {
 		return false
 	}
 	return matched
+}
+
+func (h *History) MatchRegex(re *regexp.Regexp) bool {
+	if h == nil {
+		return false
+	}
+	return re.MatchString(h.Path())
 }

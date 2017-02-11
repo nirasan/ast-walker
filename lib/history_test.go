@@ -37,7 +37,7 @@ type struct1 struct {
 		b2 := new(bytes.Buffer)
 		// struct fields path example:
 		//   Decls[0].(*ast.GenDecl).Specs[0].(*ast.TypeSpec).Type.(*ast.StructType).Fields.List[0]
-		if history.Match(`Fields.List\[\d+\]$`) {
+		if history.MatchString(`Fields.List\[\d+\]$`) {
 			ast.Fprint(b2, fset, n, ast.NotNilFilter)
 		}
 
