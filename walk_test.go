@@ -32,10 +32,10 @@ type mystruct struct {
 
 	ast.Print(fset, f)
 
-	Inspect(f, func(n ast.Node, history []string) bool {
+	Inspect(f, func(n ast.Node, history *History) bool {
 		switch x := n.(type) {
 		case *ast.Ident:
-			fmt.Printf("Path: %v\n", strings.Join(history, "."))
+			fmt.Printf("Path: %v\n", strings.Join(history.List, "."))
 			ast.Print(fset, x)
 
 		}
@@ -60,10 +60,10 @@ type mystruct struct {
 
 	ast.Print(fset, f)
 
-	Inspect(f, func(n ast.Node, history []string) bool {
+	Inspect(f, func(n ast.Node, history *History) bool {
 		switch x := n.(type) {
 		case *ast.StructType:
-			fmt.Printf("Path: %v\n", strings.Join(history, "."))
+			fmt.Printf("Path: %v\n", strings.Join(history.List, "."))
 			ast.Print(fset, x)
 		}
 		return true
