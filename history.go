@@ -1,6 +1,10 @@
 package ast_walker
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+	"regexp"
+)
 
 type History struct {
 	List []string
@@ -21,3 +25,27 @@ func (h *History) AppendN(s string, i int) *History {
 	return h.Append(fmt.Sprintf("%s[%d]", s, i))
 }
 
+func (h *History) Path() string {
+	if h == nil {
+		return ""
+	}
+	return h.Join(".")
+}
+
+func (h *History) Join(sep string) string {
+	if h == nil {
+		return ""
+	}
+	return strings.Join(h.List, sep)
+}
+
+func (h *History) Match(pattern string) bool {
+	if h == nil {
+		return false
+	}
+	matched, err := regexp.MatchString(pattern, h.Path())
+	if err != nil {
+		return false
+	}
+	return matched
+}

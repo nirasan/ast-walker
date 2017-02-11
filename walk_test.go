@@ -48,10 +48,9 @@ type mystruct struct {
 func TestInspect2(t *testing.T) {
 	src := `
 package main
-
-type mystruct struct {
-  Arg1 uint "json:\"arg1\""
-  Arg2 string
+import "fmt"
+func main() {
+	fmt.Println("hello world")
 }
 `
 
