@@ -14,34 +14,63 @@ import (
 )
 
 var (
-	filename = flag.String("f", "", "target file name.")
-	pattern  = flag.String("r", "", "regex pattern for search command.")
-	typename = flag.String("t", "", "type name for search node.")
+	command = flag.String("command", "", "command for search.")
+	pattern = flag.String("regex", "", "regex pattern for search command.")
+	typename = flag.String("type", "", "type name for search node.")
 	found    = false
 )
+
+func Usage() {
+	fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "\tShow ast.Print:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker FILENAME\n")
+	fmt.Fprintf(os.Stderr, "\tShow command result:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -command COMMAND FILENAME\n")
+	fmt.Fprintf(os.Stderr, "\tShow command matched result:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -regex REGEX FILENAME\n")
+	fmt.Fprintf(os.Stderr, "\tShow type mached result:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -type NAME FILENAME\n")
+	fmt.Fprintf(os.Stderr, "Hint:\n")
+	fmt.Fprintf(os.Stderr, "\tSearch first struct declaration by command:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -command %s FILENAME\n", `Decls[0].(*ast.GenDecl).Specs[0]`)
+	fmt.Fprintf(os.Stderr, "\tSearch struct declaration by type:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -type %s FILENAME\n", `*ast.TypeSpec`)
+	fmt.Fprintf(os.Stderr, "\tSearch struct field declaration by regex:\n")
+	fmt.Fprintf(os.Stderr, "\t\tast-walker -regex %s FILENAME\n", `'Fields.List\[\d+\]$'`)
+}
 
 func main() {
 	log.SetFlags(0)
 	log.SetPrefix("ast-walker: ")
+	flag.Usage = Usage
 	flag.Parse()
 
-	if *filename == "" {
+	filename := flag.Arg(0)
+
+	if filename == "" {
 		flag.Usage()
 		os.Exit(2)
 	}
 
 	fset := token.NewFileSet()
-	f, e := parser.ParseFile(fset, *filename, nil, 0)
+	f, e := parser.ParseFile(fset, filename, nil, 0)
 	if e != nil {
 		log.Fatal(e)
 	}
 
-	if *pattern == "" && *typename == "" {
+	if *command == "" && *pattern == "" && *typename == "" {
 		ast.Print(fset, f)
 		return
 	}
 
-	if *pattern != "" {
+	if *command != "" {
+		Inspect(f, func(n ast.Node, h *History) bool {
+			if h.Path() == *command {
+				print(fset, n, h)
+			}
+			return true
+		})
+	} else if *pattern != "" {
 		r, e := regexp.Compile(*pattern)
 		if e != nil {
 			log.Fatal(e)
