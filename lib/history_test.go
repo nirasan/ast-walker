@@ -1,11 +1,11 @@
 package ast_walker
 
 import (
-	"testing"
+	"bytes"
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"bytes"
+	"testing"
 )
 
 func TestHistory_Match(t *testing.T) {

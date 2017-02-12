@@ -2,8 +2,8 @@ package ast_walker
 
 import (
 	"fmt"
-	"strings"
 	"regexp"
+	"strings"
 )
 
 type History struct {
@@ -11,7 +11,7 @@ type History struct {
 }
 
 func NewHistory(l int) *History {
-	return &History{ List: make([]string, l) }
+	return &History{List: make([]string, l)}
 }
 
 func (h *History) Append(s string) *History {

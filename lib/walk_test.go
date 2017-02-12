@@ -1,12 +1,12 @@
 package ast_walker
 
 import (
-	"testing"
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"fmt"
 	"strings"
+	"testing"
 )
 
 func TestInspect(t *testing.T) {

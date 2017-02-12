@@ -2,22 +2,22 @@ package main
 
 import (
 	"flag"
-	"go/ast"
-	"go/token"
-	"go/parser"
-	"log"
-	. "github.com/nirasan/ast-walker/lib"
-	"regexp"
 	"fmt"
-	"reflect"
+	. "github.com/nirasan/ast-walker/lib"
+	"go/ast"
+	"go/parser"
+	"go/token"
+	"log"
 	"os"
+	"reflect"
+	"regexp"
 )
 
 var (
 	filename = flag.String("f", "", "target file name.")
-	pattern = flag.String("r", "", "regex pattern for search command.")
+	pattern  = flag.String("r", "", "regex pattern for search command.")
 	typename = flag.String("t", "", "type name for search node.")
-	found = false
+	found    = false
 )
 
 func main() {
@@ -73,7 +73,7 @@ func print(fset *token.FileSet, n ast.Node, h *History) {
 		fmt.Println("Found!")
 		fmt.Println("")
 	}
-	fmt.Println("ACCESSER_COMMAND: ")
+	fmt.Println("COMMAND: ")
 	fmt.Println("    " + h.Path())
 	fmt.Println("AST_PRINT: ")
 	ast.Print(fset, n)
