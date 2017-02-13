@@ -12,11 +12,16 @@ go get github.com/nirasan/ast-walker
 
 ## Show ast.Print
 
+* Show whole ast.Print result.
+
 ```
 ast-walker FILENAME
 ```
 
 ## Show command result
+
+* Show accesser command specified node's ast.Print.
+* If you specified 'Decls[0]' command, you get ast.Print of first declaration of root node.
 
 ```
 ast-walker -command COMMAND FILENAME
@@ -24,11 +29,17 @@ ast-walker -command COMMAND FILENAME
 
 ## Show command matched result
 
+* Show accesser command matched node's ast.Print.
+* If you specified '\(*ast.(If|For)Stmt\).Body$' pattern, you get ast.Print of node of 'if' and 'for' statement's body.
+
 ```
 ast-walker -regex REGEX FILENAME
 ```
 
 ## Show type mached result
+
+* Show type mached node's ast.Print.
+* If you specified '*ast.TypeSpec', you get ast.Print of node of type declarations.
 
 ```
 ast-walker -type NAME FILENAME
@@ -119,7 +130,7 @@ AST_PRINT:
     54  }
 ```
 
-## Search struct field declaration by rebex
+## Search struct field declaration by regex
 
 ```
 $ ast-walker -regex 'Fields.List\[\d+\]$' file.go
