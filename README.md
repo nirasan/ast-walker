@@ -230,7 +230,7 @@ AST_PRINT:
 ```
 $ ast-walker -type *ast.TypeSpec file.go
 
-Found!                                                                                                                                                                      [72/1802]
+Found!
 
 COMMAND:
     Decls[0].(*ast.GenDecl).Specs[0]
@@ -279,7 +279,7 @@ AST_PRINT:
     41  .  .  .  .  .  .  .  }
     42  .  .  .  .  .  .  }
     43  .  .  .  .  .  }
-    44  .  .  .  .  .  Type: *ast.Ident {                                                                                                                                   [23/1802]
+    44  .  .  .  .  .  Type: *ast.Ident {
     45  .  .  .  .  .  .  NamePos: test/file2.go:5:4
     46  .  .  .  .  .  .  Name: "bool"
     47  .  .  .  .  .  }
